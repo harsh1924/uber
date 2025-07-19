@@ -1,12 +1,14 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import express from "express";
 import cors from 'cors';
-
+import express from "express";
 const app = express();
-app.use(cors());
 
+import connectToDB from './db/db.js';
+connectToDB();
+
+app.use(cors());
 app.get('/', (req, res) => {
     res.send("Heloo")
 });
