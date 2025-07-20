@@ -1,11 +1,17 @@
-// filepath: docs/users/register/README.md
+// filepath: backend/README.md
 
-# `/users/register` Endpoint Documentation
+# Backend API Documentation
 
-## Description
-This endpoint is used to register a new user. The user details are provided in the request body. Upon successful registration, a JSON response is returned containing an authentication token and the created user object.
+This document explains the available user authentication endpoints:  
+- `/users/register` – for registering a new user  
+- `/users/login` – for logging in an existing user
 
 ---
+
+## `/users/register`
+
+### Description
+Register a new user. The user details are sent in the request body. Returns a JWT token and the created user object on success.
 
 ## Request Details
 
@@ -25,10 +31,8 @@ The endpoint expects a JSON object with the following structure:
   "email": "string (valid email, required)",
   "password": "string (min 5 characters, required)"
 }
-
+```
 ## Example
-
-### ✅ Successful Request
 **Request JSON:**
 ```json
 {
@@ -39,14 +43,64 @@ The endpoint expects a JSON object with the following structure:
   "email": "johndoe@example.com",
   "password": "securepassword"
 }
+```
 
-
+### ✅ Success Request
+```json
 {
   "token": "your_jwt_token_here",
   "user": {
     "_id": "user_id",
     "fullname": { "firstname": "John", "lastname": "Doe" },
     "email": "johndoe@example.com"
-    // ...other user details...
   }
 }
+```
+
+---
+
+## `/users/login`
+### Description
+Login an existing user. The user details are sent in the request body. Returns a JWT token and the user object on success.
+
+## Request Details
+- **URL:** `/users/login`
+- **Method:** `POST`
+- **Content-Type:** `application/json`
+
+### Request Body
+The endpoint expects a JSON object with the following structure:
+
+```json
+{
+  "email": "string (valid email, required)",
+  "password": "string (min 6 characters, required)"
+}
+```
+
+## Example
+
+
+**Request JSON:**
+```json
+{
+    "email": "test@gmail.com",
+    "password": "Test@123"
+}
+```
+### ✅ Success Request
+```json
+{
+    "token": "jwt_token",
+    "user": {
+        "fullname": {
+            "firstname": "Harsh",
+            "lastname": "Panwar"
+        },
+        "_id": "687c8e051258f0e74c9d0d30",
+        "email": "test@gmail.com",
+        "password": "$2b$10$MHCRtoJS9klpIpULs/tTeO6./jAJ2ogCP7gCH66ApfhhrAyMN9Tou",
+        "__v": 0
+    }
+}
+```
