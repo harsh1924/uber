@@ -10,17 +10,17 @@ export const registerUser = async (req, res, next) => {
         })
     }
 
-    const { firstname, lastname, email, password } = req.body;
+    const { fullname, email, password } = req.body;
     const hashedPassword = await userModel.hashPassword(password);
     const user = await createUser({
-        firstname,
-        lastname,
+        firstname: fullname.firstname,
+        lastname: fullname.lastname,
         email,
         password: hashedPassword
     })
 
     const token = user.generateAuthToken();
-    res.status(200).json({
+    res.status(201).json({
         token,
         user
     })
