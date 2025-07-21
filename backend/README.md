@@ -2,13 +2,29 @@
 
 # Backend API Documentation
 
-This document explains the available user authentication endpoints:  
-- `/users/register` – for registering a new user  
-- `/users/login` – for logging in an existing user
+## 📌 Endpoints
+
+| Method | Route           | Description                  | Auth Required |
+|-------|-----------------|------------------------------|--------------:|
+| POST  | `/users/register` | Register a new user         | ❌           |
+| POST  | `/users/login`    | Login user & get token      | ❌           |
+| GET   | `/users/profile`  | Get logged-in user profile  | ✅           |
+| GET   | `/users/logout`   | Logout and blacklist token  | ✅           |
 
 ---
 
-## `/users/register`
+## 🧩 Auth Middleware
+
+Middleware: `authUser`  
+- Protects routes by verifying JWT token.
+- Supports tokens sent in **HTTP-only cookies** or in `Authorization: Bearer <token>` header.
+- Checks if token is blacklisted.
+- Attaches the authenticated user to `req.user`.
+
+---
+
+## Routes
+### `/users/register`
 
 ### Description
 Register a new user. The user details are sent in the request body. Returns a JWT token and the created user object on success.
@@ -59,7 +75,7 @@ The endpoint expects a JSON object with the following structure:
 
 ---
 
-## `/users/login`
+### `/users/login`
 ### Description
 Login an existing user. The user details are sent in the request body. Returns a JWT token and the user object on success.
 
@@ -104,3 +120,43 @@ The endpoint expects a JSON object with the following structure:
     }
 }
 ```
+
+---
+
+### `/users/profile`
+### Description
+Retrives the profile information of the currently authenticated user.
+
+## Request Details
+- **URL:** `/users/profile`
+- **Method:** `GET`
+- **Auth:** ` Bearer Token or Cookie token`
+
+
+### ✅ Success Request
+```json
+{
+  "_id": "id",
+  "fullname": { "firstname": "John", "lastname": "Doe" },
+  "email": "john@example.com"
+}
+```
+
+---
+
+### `/users/logout`
+### Description
+Logout the current user and blacklist the token provided in cookie or headers.
+
+## Request Details
+- **URL:** `/users/logout`
+- **Method:** `GET`
+- **Auth:** ` Bearer Token or Cookie token`
+
+
+### ✅ Success Request
+```json
+{ "message": "Logged Out" }
+```
+
+---
