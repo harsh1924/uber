@@ -4,14 +4,16 @@
 
 ## 📌 Endpoints
 
-| Method | Route               | Description                    | Auth Required |
-|-------|--------------------|--------------------------------|--------------:|
-| POST  | `/users/register`   | Register a new user           | ❌           |
-| POST  | `/users/login`      | Login user & get token        | ❌           |
-| GET   | `/users/profile`    | Get logged-in user profile    | ✅           |
-| GET   | `/users/logout`     | Logout and blacklist token    | ✅           |
-| POST  | `/captains/register`| Register a new captain        | ❌           |
-
+| Method | Route                 | Description                     | Auth Required |
+|-------|----------------------|---------------------------------|--------------:|
+| POST  | `/users/register`     | Register a new user            | ❌           |
+| POST  | `/users/login`        | Login user & get token         | ❌           |
+| GET   | `/users/profile`      | Get logged-in user profile     | ✅           |
+| GET   | `/users/logout`       | Logout and blacklist token     | ✅           |
+| POST  | `/captains/register`  | Register a new captain         | ❌           |
+| POST  | `/captains/login`     | Login captain & get token      | ❌           |
+| GET   | `/captains/profile`   | Get logged-in captain profile  | ✅           |
+| GET   | `/captains/logout`    | Logout captain & blacklist     | ✅           |
 
 ---
 
@@ -22,6 +24,13 @@ Middleware: `authUser`
 - Supports tokens sent in **HTTP-only cookies** or in `Authorization: Bearer <token>` header.
 - Checks if token is blacklisted.
 - Attaches the authenticated user to `req.user`.
+
+
+Middleware: `authCaptain`  
+- Protects captain routes by verifying JWT token.
+- Supports tokens sent in **HTTP-only cookies** or in `Authorization: Bearer <token>` header.
+- Checks if token is blacklisted.
+- Attaches the authenticated captain to `req.captain`.
 
 ---
 
@@ -50,6 +59,7 @@ The endpoint expects a JSON object with the following structure:
   "password": "string (min 5 characters, required)"
 }
 ```
+
 ## Example
 **Request JSON:**
 ```json
@@ -214,3 +224,103 @@ Returns a JWT token and the created captain object on success.
 
 ---
 
+### `/captains/login`
+### Description
+Login an existing user. The user details are sent in the request body. Returns a JWT token and the user object on success.
+
+## Request Details
+- **URL:** `/captains/login`
+- **Method:** `POST`
+- **Content-Type:** `application/json`
+
+### Request Body
+The endpoint expects a JSON object with the following structure:
+
+```json
+{
+  "email": "string (valid email, required)",
+  "password": "string (min 6 characters, required)"
+}
+```
+
+## Example
+
+
+**Request JSON:**
+```json
+{
+    "email": "test@gmail.com",
+    "password": "Test@123"
+}
+```
+### ✅ Success Request
+```json
+{
+  "token": "your_jwt_token_here",
+  "captain": {
+    "_id": "64ccf7d1e75e4a23a5b6c7e1",
+    "fullname": {
+      "firstname": "Alex",
+      "lastname": "Smith"
+    },
+    "email": "alexsmith@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "XYZ1234",
+      "capacity": 4,
+      "vehicleType": "Sedan"
+    },
+    "__v": 0
+  }
+}
+```
+
+---
+
+### `/captains/profile`
+### Description
+Retrives the profile information of the currently authenticated user.
+
+## Request Details
+- **URL:** `/captains/profile`
+- **Method:** `GET`
+- **Auth:** `Bearer Token or Cookie token`
+
+
+### ✅ Success Request
+```json
+{
+  "_id": "64ccf7d1e75e4a23a5b6c7e1",
+  "fullname": {
+    "firstname": "Alex",
+    "lastname": "Smith"
+  },
+  "email": "alexsmith@example.com",
+  "vehicle": {
+    "color": "Red",
+    "plate": "XYZ1234",
+    "capacity": 4,
+    "vehicleType": "Sedan"
+  },
+  "__v": 0
+}
+```
+
+---
+
+### `/captains/logout`
+### Description
+Logout the current captain and blacklist the token provided in cookie or headers.
+
+## Request Details
+- **URL:** `/captains/logout`
+- **Method:** `GET`
+- **Auth:** `Bearer Token or Cookie token`
+
+
+### ✅ Success Request
+```json
+{ "message": "Logged Out Successfully" }
+```
+
+---
