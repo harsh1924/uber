@@ -4,12 +4,14 @@
 
 ## 📌 Endpoints
 
-| Method | Route           | Description                  | Auth Required |
-|-------|-----------------|------------------------------|--------------:|
-| POST  | `/users/register` | Register a new user         | ❌           |
-| POST  | `/users/login`    | Login user & get token      | ❌           |
-| GET   | `/users/profile`  | Get logged-in user profile  | ✅           |
-| GET   | `/users/logout`   | Logout and blacklist token  | ✅           |
+| Method | Route               | Description                    | Auth Required |
+|-------|--------------------|--------------------------------|--------------:|
+| POST  | `/users/register`   | Register a new user           | ❌           |
+| POST  | `/users/login`      | Login user & get token        | ❌           |
+| GET   | `/users/profile`    | Get logged-in user profile    | ✅           |
+| GET   | `/users/logout`     | Logout and blacklist token    | ✅           |
+| POST  | `/captains/register`| Register a new captain        | ❌           |
+
 
 ---
 
@@ -23,7 +25,7 @@ Middleware: `authUser`
 
 ---
 
-## Routes
+## User Routes
 ### `/users/register`
 
 ### Description
@@ -160,3 +162,55 @@ Logout the current user and blacklist the token provided in cookie or headers.
 ```
 
 ---
+
+
+## Captain Routes
+### `/captains/register`
+### Description
+Register a new captain by providing name, email, password, and vehicle details.
+Returns a JWT token and the created captain object on success.
+
+## Request Details
+- **URL:** `/captains/register`
+- **Method:** `POST`
+- **Auth:** `application/json`
+
+
+**Request JSON:**
+```json
+{
+  "fullname": {
+    "firstname": "string (min 3 characters, required)",
+    "lastname": "string (optional)"
+  },
+  "email": "string (valid email, required)",
+  "password": "string (min 5 characters, required)",
+  "vehicle": {
+    "color": "string (required)",
+    "plate": "string (required)",
+    "capacity": "number (required)",
+    "vehicleType": "string (required)"
+  }
+}
+```
+
+### ✅ Success Request
+```json
+{
+  "token": "your_jwt_token_here",
+  "captain": {
+    "_id": "captain_id",
+    "fullname": { "firstname": "Alex", "lastname": "Smith" },
+    "email": "alexsmith@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "XYZ1234",
+      "capacity": 4,
+      "vehicleType": "Sedan"
+    }
+  }
+}
+```
+
+---
+
