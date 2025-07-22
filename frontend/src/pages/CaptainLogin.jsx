@@ -28,7 +28,7 @@ const CaptainLogin = () => {
         >
           <h3 className="text-lg font-medium mb-2">What's your email address?</h3>
           <input
-            className="bg-[#eeeeee] rounded px-4 py-2 w-full text-lg placeholder:text-sm mb-7"
+            className="bg-[#eeeeee] rounded px-4 py-2 w-full text-lg placeholder:text-gray-400 placeholder:text-sm placeholder:font-sans mb-7"
             type="email"
             placeholder="Enter your email address..."
             required
@@ -39,7 +39,7 @@ const CaptainLogin = () => {
 
           <h3 className="text-lg font-medium mb-2">What's your password?</h3>
           <input
-            className="bg-[#eeeeee] rounded px-4 py-2 w-full text-lg placeholder:text-sm mb-7"
+            className="bg-[#eeeeee] rounded px-4 py-2 w-full text-lg placeholder:text-gray-400 placeholder:text-sm placeholder:font-sans mb-7"
             type="password"
             placeholder="Enter your password..."
             required
@@ -49,12 +49,12 @@ const CaptainLogin = () => {
           />
 
           <button
-            className="bg-[#111] text-[#fff] font-semibold rounded px-4 py-2 w-full text-lg placeholder:text-sm mb-3"
+            className="bg-[#111] text-[#fff] font-semibold rounded px-4 py-2 w-full text-lg mb-3"
           >
             Login
           </button>
 
-          <p className="text-center text-sm">
+          <p className="text-center text-sm font-sans">
             Join a fleet. <Link
               to="/captain-signup"
               className="text-blue-600 font-semibold"
@@ -68,7 +68,7 @@ const CaptainLogin = () => {
       <div>
         <Link
           to="/login"
-          className="bg-[#d56] flex items-center justify-center text-[#fff] font-semibold rounded px-4 py-2 w-full text-lg placeholder:text-sm mb-3"
+          className="bg-[#d56] flex items-center justify-center text-[#fff] font-semibold rounded px-4 py-2 w-full text-lg mb-3"
         >
           Sign In as User 
         </Link>
