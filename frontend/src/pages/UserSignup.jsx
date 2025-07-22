@@ -1,21 +1,42 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import axios from "axios"
+import { toast } from "react-hot-toast"
+import { useContext, useState } from "react"
+import { UserDataContext } from "../context/UserContext"
+import { Link, useNavigate } from "react-router-dom"
 
 const UserSignup = () => {
+
+  const navigate = useNavigate();
+  const { User, SetUser } = useContext(UserDataContext);
+
   const [user, setUser] = useState({
     fullname: {
-      firstName: "",
-      lastName: "",
+      firstname: "",
+      lastname: "",
     },
     email: "",
     password: ""
   });
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Perform login logic here
 
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, user);
+
+      if (response.status === 201) {
+        const data = response.data;
+        SetUser({ ...User, user: data.user, token: data.token });
+        toast.success("Registration successful! Please login.");
+        navigate("/home");
+      }
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+      toast.error("Registration failed. Please try again.");
+    }
   };
 
   return (
@@ -29,6 +50,7 @@ const UserSignup = () => {
 
         <form
           onSubmit={handleSubmit}
+          noValidate
         >
           <h3 className="text-base font-medium mb-2">What's your name</h3>
           <div className="flex gap-1 mb-5">
@@ -37,8 +59,8 @@ const UserSignup = () => {
               type="text"
               placeholder="First Name..."
               required
-              value={user.fullname.firstName}
-              onChange={(e) => setUser({ ...user, fullname: { ...user.fullname, firstName: e.target.value } })}
+              value={user.fullname.firstname}
+              onChange={(e) => setUser({ ...user, fullname: { ...user.fullname, firstname: e.target.value } })}
               id="firstname"
             />
             <input
@@ -46,8 +68,8 @@ const UserSignup = () => {
               type="text"
               placeholder="Last Name..."
               required
-              value={user.fullname.lastName}
-              onChange={(e) => setUser({ ...user, fullname: { ...user.fullname, lastName: e.target.value } })}
+              value={user.fullname.lastname}
+              onChange={(e) => setUser({ ...user, fullname: { ...user.fullname, lastname: e.target.value } })}
               id="lastname"
             />
           </div>
@@ -76,6 +98,7 @@ const UserSignup = () => {
 
           <button
             className="bg-[#111] text-[#fff] font-semibold rounded px-4 py-2 w-full text-lg mb-3"
+            type="submit"
           >
             Create Account
           </button>

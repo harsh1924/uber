@@ -5,13 +5,15 @@ import UserLogin from "./pages/UserLogin";
 import UserSignup from "./pages/UserSignup";
 import CaptainLogin from "./pages/CaptainLogin";
 import CaptainSignup from "./pages/CaptainSignup";
+import Start from './pages/Start';
 
 const App = () => {
   return (
     <div>
       {/* Define your routes here */}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Start />} />
+        <Route path="/home" element={<Home />} />
 
         {/* User */}
         <Route path="/login" element={<UserLogin />} />

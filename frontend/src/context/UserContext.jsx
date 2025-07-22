@@ -5,7 +5,7 @@ export const UserDataContext = createContext(null);
 
 const UserContext = ({ children }) => {
     // Here you can manage user data and authentication logic
-    const [user, setUser] = useState({
+    const [User, SetUser] = useState({
         email: '',
         fullname: {
             firstname: '',
@@ -14,10 +14,10 @@ const UserContext = ({ children }) => {
     });
 
     return (
-        <UserDataContext.Provider value={{ user, setUser }}>
+        <UserDataContext.Provider value={{ User, SetUser }}>
             {children}
         </UserDataContext.Provider>
     )
 }
 
-export default UserContext
+export default UserContext;
